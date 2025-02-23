@@ -8,17 +8,17 @@ import {
 	ValidationPipe,
 	UseGuards,
 	Req,
-} from "@nestjs/common";
-import { UserService } from "./user.service";
-import { userDto, oAuthDto } from "./user.dto";
-import { ApiOperation, ApiTags } from "@nestjs/swagger";
-import { AuthGuard } from "@nestjs/passport";
-import { Request } from "express";
-import { AuthService } from "../auth/auth.service";
-import axios from "axios";
+} from '@nestjs/common'
+import { UserService } from './user.service'
+import { userDto, oAuthDto } from './user.dto'
+import { ApiOperation, ApiTags } from '@nestjs/swagger'
+import { AuthGuard } from '@nestjs/passport'
+import { Request } from 'express'
+import { AuthService } from '../auth/auth.service'
+import axios from 'axios'
 
-@ApiTags("User")
-@Controller("users")
+@ApiTags('User')
+@Controller('users')
 @UsePipes(ValidationPipe)
 export class UserController {
 	constructor(
@@ -26,41 +26,41 @@ export class UserController {
 		private readonly authService: AuthService
 	) {}
 	@Post()
-	@ApiOperation({ summary: "Create a new user" })
+	@ApiOperation({ summary: 'Create a new user' })
 	create(@Body() body: userDto) {
-		return this.userService.create(body);
+		return this.userService.create(body)
 	}
 
-	@UseGuards(AuthGuard("jwt"))
-	@Get("/isAuth")
-	@ApiOperation({ summary: "Check auth status" })
+	@UseGuards(AuthGuard('jwt'))
+	@Get('/isAuth')
+	@ApiOperation({ summary: 'Check auth status' })
 	isAuth(@Req() request: Request) {
-		return request.user;
+		return request.user
 	}
 
-	@UseGuards(AuthGuard("local"))
-	@Post("/signin")
-	@ApiOperation({ summary: "singin and get access token" })
+	@UseGuards(AuthGuard('local'))
+	@Post('/signin')
+	@ApiOperation({ summary: 'singin and get access token' })
 	signin(
 		@Req() request: Request,
 		@Res({ passthrough: true }) res: any,
 		@Body() body: userDto
 	) {
-		const jwt = this.authService.generateJwt(body.email);
-		return jwt;
+		const jwt = this.authService.generateJwt(body.email)
+		return jwt
 	}
 
-	@Post("/google_signin")
+	@Post('/google_signin')
 	@ApiOperation({
-		summary: "Give the google token to signin and get access token",
+		summary: 'Give the google token to signin and get access token',
 	})
 	async google_signin(@Body() body: oAuthDto) {
-		const headers = { Authorization: `Bearer ${body.oAuthToken}` };
+		const headers = { Authorization: `Bearer ${body.oAuthToken}` }
 		const res = await axios.get(
-			"https://www.googleapis.com/oauth2/v2/userinfo",
+			'https://www.googleapis.com/oauth2/v2/userinfo',
 			{ headers }
-		);
-		const jwt = this.authService.generateJwt(res.data.email);
-		return jwt;
+		)
+		const jwt = this.authService.generateJwt(res.data.email)
+		return jwt
 	}
 }

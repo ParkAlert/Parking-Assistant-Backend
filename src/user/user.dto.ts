@@ -1,18 +1,18 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsString } from "class-validator";
-import { IsEmail } from "class-validator";
+import { ApiProperty } from '@nestjs/swagger'
+import { IsNotEmpty, IsString } from 'class-validator'
+import { IsEmail } from 'class-validator'
 
 export class userDto {
 	@ApiProperty()
 	@IsString()
 	@IsNotEmpty()
 	@IsEmail()
-	email: string;
+	email: string
 
 	@ApiProperty()
 	@IsString()
 	@IsNotEmpty()
-	password: string;
+	password: string
 }
 
 export class updatePasswordDto {
@@ -20,18 +20,18 @@ export class updatePasswordDto {
 	@IsString()
 	@IsNotEmpty()
 	@IsEmail()
-	email: string;
+	email: string
 
 	@ApiProperty()
-	password: string;
+	password: string
 
 	@ApiProperty()
-	newPassword: string;
+	newPassword: string
 }
 
 export class oAuthDto {
 	@ApiProperty()
 	@IsString()
 	@IsNotEmpty()
-	oAuthToken: string;
+	oAuthToken: string
 }

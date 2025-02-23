@@ -1,12 +1,12 @@
-import { Module } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
-import { AppController } from "./app.controller";
-import { MongooseModule } from "@nestjs/mongoose";
-import { ConfigService } from "@nestjs/config";
-import { AppService } from "./app.service";
-import { UserModule } from "./user/user.module";
-import { AuthModule } from "./auth/auth.module";
-import { ChatModule } from "./chat/chat.module";
+import { Module } from '@nestjs/common'
+import { ConfigModule } from '@nestjs/config'
+import { AppController } from './app.controller'
+import { MongooseModule } from '@nestjs/mongoose'
+import { ConfigService } from '@nestjs/config'
+import { AppService } from './app.service'
+import { UserModule } from './user/user.module'
+import { AuthModule } from './auth/auth.module'
+import { ChatModule } from './chat/chat.module'
 
 @Module({
 	imports: [
@@ -15,7 +15,7 @@ import { ChatModule } from "./chat/chat.module";
 			imports: [ConfigModule],
 			inject: [ConfigService],
 			useFactory: async (config: ConfigService) => ({
-				uri: config.get<string>("DBSTR"),
+				uri: config.get<string>('DBSTR'),
 			}),
 		}),
 		UserModule,

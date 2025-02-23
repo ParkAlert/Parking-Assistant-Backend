@@ -1,7 +1,7 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Document } from "mongoose";
-import { ApiProperty } from "@nestjs/swagger";
-import { msgDto } from "./chat.dto";
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
+import { Document } from 'mongoose'
+import { ApiProperty } from '@nestjs/swagger'
+import { msgDto } from './chat.dto'
 
 export type ChatDocument = Chat & Document;
 
@@ -9,11 +9,11 @@ export type ChatDocument = Chat & Document;
 export class Chat {
 	@ApiProperty()
 	@Prop({ required: true, unique: true })
-	roomName: string;
+	roomName: string
 
 	@ApiProperty()
 	@Prop({ required: true, type: [Object] })
-	chatHistory: msgDto[];
+	chatHistory: msgDto[]
 }
 
-export const ChatSchema = SchemaFactory.createForClass(Chat);
+export const ChatSchema = SchemaFactory.createForClass(Chat)

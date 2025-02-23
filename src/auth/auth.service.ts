@@ -1,7 +1,7 @@
-import { UserService } from "../user/user.service";
-import { Injectable, Inject } from "@nestjs/common";
-import * as bcrypt from "bcrypt";
-import { JwtService } from "@nestjs/jwt";
+import { UserService } from '../user/user.service'
+import { Injectable, Inject } from '@nestjs/common'
+import * as bcrypt from 'bcrypt'
+import { JwtService } from '@nestjs/jwt'
 
 @Injectable()
 export class AuthService {
@@ -10,35 +10,35 @@ export class AuthService {
 		private readonly jwtService: JwtService
 	) {}
 	async validateUser(email: string, password: string) {
-		const user = await this.userService.findByEmail(email);
+		const user = await this.userService.findByEmail(email)
 
 		if (!user) {
-			return null;
+			return null
 		}
 
 		if (user.email !== email) {
-			return null;
+			return null
 		}
 
-		const isValidPassword = await bcrypt.compare(password, user.password);
+		const isValidPassword = await bcrypt.compare(password, user.password)
 		if (!isValidPassword) {
-			return null;
+			return null
 		}
 
-		return user;
+		return user
 	}
 
 	generateJwt(email: string) {
-		const access_token: any = this.jwtService.sign({ email: email });
-		return access_token;
+		const access_token: any = this.jwtService.sign({ email: email })
+		return access_token
 	}
 
 	getUserInfo(token: string) {
 		try {
-			const payload = this.jwtService.verify(token);
-			return payload;
+			const payload = this.jwtService.verify(token)
+			return payload
 		} catch (e) {
-			return {};
+			return {}
 		}
 	}
 }

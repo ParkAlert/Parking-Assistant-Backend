@@ -1,45 +1,45 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsString } from "class-validator";
+import { ApiProperty } from '@nestjs/swagger'
+import { IsNotEmpty, IsString } from 'class-validator'
 
 export class msgDto {
 	@ApiProperty()
 	@IsString()
 	@IsNotEmpty()
-	name: string;
+	name: string
 
 	@ApiProperty()
 	@IsString()
-	msg: string;
+	msg: string
 
 	@ApiProperty()
 	@IsString()
 	@IsNotEmpty()
-	time: string;
+	time: string
 }
 export class historyDto {
 	@ApiProperty()
 	@IsString()
 	@IsNotEmpty()
-	user1: string;
+	user1: string
 
 	@ApiProperty()
 	@IsString()
 	@IsNotEmpty()
-	user2: string;
+	user2: string
 }
 
 class singleChatDto {
 	@ApiProperty()
 	@IsString()
 	@IsNotEmpty()
-	target: string;
+	target: string
 
 	@ApiProperty()
 	@IsString()
 	@IsNotEmpty()
-	latestMsg: msgDto;
+	latestMsg: msgDto
 }
 export class chatListDto {
 	@ApiProperty({ type: [singleChatDto] })
-	list: singleChatDto[];
+	list: singleChatDto[]
 }
