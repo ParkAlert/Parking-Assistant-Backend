@@ -13,7 +13,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-            - name: SSH to EC2 and deploy
+      - name: SSH to EC2 and deploy
         env:
           PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
           HOST: ${{ secrets.EC2_HOST }}
@@ -22,6 +22,8 @@ jobs:
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           PGADMIN_EMAIL: ${{ secrets.PGADMIN_EMAIL }}
         run: |
+          echo "$PRIVATE_KEY" > key.pem
+          chmod 600 key.pem
           ssh -o StrictHostKeyChecking=no -i key.pem $USER@$HOST <<EOF
             cd /home/ec2-user/Parking-Assistant-Backend
             git checkout dev
