@@ -33,6 +33,7 @@ services:
     restart: always
     command: sh -c "pnpm migrate:up && node dist/main.js"
 
+  # TODO: 噴錯應該得顯示在github上
   nginx:
     image: jonasal/nginx-certbot:3
     ports:
