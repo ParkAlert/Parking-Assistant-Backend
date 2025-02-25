@@ -24,17 +24,17 @@ jobs:
         run: |
           echo "$PRIVATE_KEY" > key.pem
           chmod 600 key.pem
-          ssh -o StrictHostKeyChecking=no -i key.pem $USER@$HOST << EOF
+          ssh -o StrictHostKeyChecking=no -i key.pem $USER@$HOST << 'EOF'
             cd /home/ec2-user/Parking-Assistant-Backend
             git checkout dev
             git pull
             
             # 創建 .env 文件
-            cat > .env << EOL
-            POSTGRES_USER=$POSTGRES_USER
-            POSTGRES_PASSWORD=$POSTGRES_PASSWORD
-            PGADMIN_EMAIL=$PGADMIN_EMAIL
-            EOL
+            cat << 'ENVEOF' > .env
+POSTGRES_USER=$POSTGRES_USER
+POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+PGADMIN_EMAIL=$PGADMIN_EMAIL
+ENVEOF
             
             # 修復權限問題
             sudo chown -R ec2-user:ec2-user .
@@ -42,4 +42,4 @@ jobs:
             
             docker-compose up --build -d
             docker system prune -f
-          EOF
+EOF
