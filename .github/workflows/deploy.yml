@@ -18,6 +18,9 @@ jobs:
           PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
           HOST: ${{ secrets.EC2_HOST }}
           USER: ec2-user
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          PGADMIN_EMAIL: ${{ secrets.PGADMIN_EMAIL }}
         run: |
           echo "$PRIVATE_KEY" > key.pem
           chmod 600 key.pem
@@ -26,8 +29,16 @@ jobs:
             git checkout dev
             git pull
             
-            # 從 GitHub Secrets 動態生成 .env 文件
-            echo "$(printenv | grep -E '^(POSTGRES|PGADMIN|JWT).*=')" > .env
+            # 創建 .env 文件
+            cat > .env << EOL
+            POSTGRES_USER=$POSTGRES_USER
+            POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+            PGADMIN_EMAIL=$PGADMIN_EMAIL
+            EOL
+            
+            # 修復權限問題
+            sudo chown -R ec2-user:ec2-user .
+            sudo chmod -R 755 .
             
             docker-compose up --build -d
             docker system prune -f
