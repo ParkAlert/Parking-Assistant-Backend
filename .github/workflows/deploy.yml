@@ -32,8 +32,8 @@ jobs:
             sudo chown -R ec2-user:ec2-user nginx_secrets
             sudo chmod -R 755 nginx_secrets
             
-            echo "POSTGRES_USER=$POSTGRES_USER" > .env
-            echo "POSTGRES_PASSWORD=$POSTGRES_PASSWORD" >> .env
+            echo "POSTGRES_USER=${POSTGRES_USER}" > .env
+            echo "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}" >> .env
             
             docker-compose up --build -d
             docker system prune -f
