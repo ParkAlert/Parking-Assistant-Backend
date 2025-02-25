@@ -1,14 +1,37 @@
-version: '3.8'
-
 services:
+  postgres:
+    image: postgres:15
+    container_name: postgres_prod
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: parkAlert
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   app:
     build:
       context: .
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
     environment:
       NODE_ENV: production
-    command: node dist/main.js
+      POSTGRES_HOST: postgres
+      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/parkAlert
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: always
+    command: sh -c "pnpm migrate:up && node dist/main.js"
 
   nginx:
     image: jonasal/nginx-certbot:3
@@ -16,10 +39,13 @@ services:
       - "80:80"
       - "443:443"
     environment:
-      - CERTBOT_EMAIL=vigor01695@email.com
+      - CERTBOT_EMAIL=${PGADMIN_EMAIL}
     volumes:
-      - ./nginx_secrets:/etc/letsencrypt                  # 憑證持久化
-      - ./user_conf.d:/etc/nginx/user_conf.d:ro           # 掛載用戶配置到 user_conf.d
+      - ./nginx_secrets:/etc/letsencrypt
+      - ./user_conf.d:/etc/nginx/user_conf.d:ro
     restart: always
     depends_on:
       - app
+
+volumes:
+  postgres_data:

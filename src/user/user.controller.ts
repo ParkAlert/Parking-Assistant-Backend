@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common'
 import { UserService } from './user.service'
 import { userDto, oAuthDto } from './user.dto'
-import { ApiOperation, ApiTags } from '@nestjs/swagger'
+import { ApiOperation, ApiTags, ApiBearerAuth } from '@nestjs/swagger'
 import { AuthGuard } from '@nestjs/passport'
 import { Request } from 'express'
 import { AuthService } from '../auth/auth.service'
@@ -34,13 +34,14 @@ export class UserController {
 	@UseGuards(AuthGuard('jwt'))
 	@Get('/isAuth')
 	@ApiOperation({ summary: 'Check auth status' })
+	@ApiBearerAuth()
 	isAuth(@Req() request: Request) {
 		return request.user
 	}
 
 	@UseGuards(AuthGuard('local'))
 	@Post('/signin')
-	@ApiOperation({ summary: 'singin and get access token' })
+	@ApiOperation({ summary: 'signin and get access token' })
 	signin(
 		@Req() request: Request,
 		@Res({ passthrough: true }) res: any,
@@ -50,6 +51,7 @@ export class UserController {
 		return jwt
 	}
 
+	/* 之後再補做
 	@Post('/google_signin')
 	@ApiOperation({
 		summary: 'Give the google token to signin and get access token',
@@ -63,4 +65,5 @@ export class UserController {
 		const jwt = this.authService.generateJwt(res.data.email)
 		return jwt
 	}
+	*/
 }

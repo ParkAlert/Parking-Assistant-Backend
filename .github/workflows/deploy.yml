@@ -3,7 +3,7 @@ name: Deploy to EC2
 on:
   push:
     branches:
-      - dev  # 監聽 main 分支變動
+      - dev  # 監聽 dev 分支變動
 
 jobs:
   deploy:
@@ -21,10 +21,14 @@ jobs:
         run: |
           echo "$PRIVATE_KEY" > key.pem
           chmod 600 key.pem
-          ssh -o StrictHostKeyChecking=no -i key.pem $USER@$HOST << 'EOF'
+          ssh -o StrictHostKeyChecking=no -i key.pem $USER@$HOST << EOF
             cd /home/ec2-user/Parking-Assistant-Backend
             git checkout dev
             git pull
+            
+            # 從 GitHub Secrets 動態生成 .env 文件
+            echo "$(printenv | grep -E '^(POSTGRES|PGADMIN|JWT).*=')" > .env
+            
             docker-compose up --build -d
             docker system prune -f
           EOF
