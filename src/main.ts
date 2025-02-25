@@ -21,7 +21,7 @@ function setupSwagger(app: INestApplication) {
 	const config = builder
 		.setTitle('ParkAlert')
 		.setDescription('ParkAlert Swagger document.')
-		.setVersion('1.0')
+		.setVersion('1.0.0.0225.0')
 		.addBearerAuth()
 		.build()
 	const document = SwaggerModule.createDocument(app, config)

@@ -1,7 +1,7 @@
-import { Injectable, ConflictException, Inject } from '@nestjs/common';
-import { Pool } from 'pg';
-import { userDto } from './user.dto';
-import * as bcrypt from 'bcrypt';
+import { Injectable, ConflictException, Inject } from '@nestjs/common'
+import { Pool } from 'pg'
+import { userDto } from './user.dto'
+import * as bcrypt from 'bcrypt'
 const saltLength = 9
 @Injectable()
 export class UserService {
