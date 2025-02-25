@@ -8,7 +8,7 @@ const databaseProvider = {
   useFactory: (configService: ConfigService) => {
     const user = configService.get('POSTGRES_USER')
     const password = configService.get('POSTGRES_PASSWORD')
-    const host = configService.get('POSTGRES_HOST', 'localhost')
+    const host = configService.get('POSTGRES_HOST', 'postgres')
     const port = configService.get('POSTGRES_PORT', '5432')
     const database = configService.get('POSTGRES_DB', 'parkAlert')
 
