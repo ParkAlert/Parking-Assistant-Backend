@@ -31,10 +31,10 @@ jobs:
             
             # 創建 .env 文件
             cat << 'ENVEOF' > .env
-POSTGRES_USER=$POSTGRES_USER
-POSTGRES_PASSWORD=$POSTGRES_PASSWORD
-PGADMIN_EMAIL=$PGADMIN_EMAIL
-ENVEOF
+            POSTGRES_USER=$POSTGRES_USER
+            POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+            PGADMIN_EMAIL=$PGADMIN_EMAIL
+            ENVEOF
             
             # 修復權限問題
             sudo chown -R ec2-user:ec2-user .
